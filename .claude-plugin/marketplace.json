@@ -1,0 +1,21 @@
+{
+  "name": "agent-skills",
+  "owner": {
+    "name": "yangsui",
+    "url": "https://github.com/yangsui9999"
+  },
+  "description": "yangsui's collection of reusable, cross-agent coding skills.",
+  "plugins": [
+    {
+      "name": "context-handoff",
+      "displayName": "Context Handoff",
+      "description": "Decide when a long session should hand off, then produce a safe, complete resume document so a fresh terminal/session can continue.",
+      "source": "./plugins/context-handoff",
+      "version": "1.0.0",
+      "author": { "name": "yangsui" },
+      "homepage": "https://github.com/yangsui9999/agent-skills",
+      "license": "MIT",
+      "keywords": ["context", "handoff", "session", "resume"]
+    }
+  ]
+}
