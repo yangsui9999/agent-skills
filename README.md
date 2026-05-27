@@ -17,7 +17,7 @@ A *skill* is a small Markdown reference (`SKILL.md`) that a coding agent reads t
 /plugin marketplace add yangsui9999/agent-skills
 
 # 2) install a plugin (plugin-name@marketplace-name)
-/plugin install context-handoff@agent-skills
+/plugin install context-handoff@yangsui-skills
 ```
 
 Then invoke it as `/context-handoff:context-handoff`, or just let it trigger on phrases like "context full", "new terminal", "handoff".
@@ -71,7 +71,7 @@ skill 就是一份 agent 会读的 Markdown 参考文档（`SKILL.md`），告�
 **Claude Code 安装：**
 ```shell
 /plugin marketplace add yangsui9999/agent-skills
-/plugin install context-handoff@agent-skills
+/plugin install context-handoff@yangsui-skills
 ```
 之后用 `/context-handoff:context-handoff` 调用，或说"上下文满了 / 新开终端 / 写个交接"等自动触发。
 
