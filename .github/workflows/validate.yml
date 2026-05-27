@@ -1,0 +1,59 @@
+name: validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # 1) Secret scan — gitleaks detects real key formats / high entropy,
+      #    so the skill's own "password/AKIA…" documentation text is NOT flagged.
+      - name: Secret scan (gitleaks)
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # 2) Manifests are valid JSON
+      - name: Validate manifest JSON
+        run: |
+          set -e
+          python3 -m json.tool .claude-plugin/marketplace.json > /dev/null
+          echo "marketplace.json OK"
+          for f in plugins/*/.claude-plugin/plugin.json; do
+            python3 -m json.tool "$f" > /dev/null
+            echo "$f OK"
+          done
+
+      # 3) Every skill has YAML frontmatter with name + description
+      - name: Check SKILL.md frontmatter
+        run: |
+          set -e
+          shopt -s nullglob
+          for s in plugins/*/skills/*/SKILL.md; do
+            head -1 "$s" | grep -qx -- '---' || { echo "::error file=$s::missing frontmatter opener"; exit 1; }
+            grep -q '^name:' "$s"        || { echo "::error file=$s::missing 'name:'"; exit 1; }
+            grep -q '^description:' "$s" || { echo "::error file=$s::missing 'description:'"; exit 1; }
+            echo "$s OK"
+          done
+
+      # 4) Official Claude Code plugin validation
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: claude plugin validate
+        run: |
+          set -e
+          npm install -g @anthropic-ai/claude-code
+          for d in plugins/*/; do
+            echo "== validating $d =="
+            claude plugin validate "$d"
+          done
