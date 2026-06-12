@@ -6,9 +6,7 @@ description: >
   decide whether to hand off and produce a resume document. Triggers: "context
   full", "running low on context", "new terminal", "start fresh", "handoff",
   "resume in another session", before clearing/compacting context (/clear,
-  /compact). Multilingual triggers: 看看context, 新开终端, 上下文满了, 交接文档,
-  コンテキスト引き継ぎ, 新しいターミナル, 컨텍스트 핸드오프, 새 터미널,
-  contexto lleno, contexte plein.
+  /compact). Chinese triggers: 看看context, 新开终端, 上下文满了, 交接文档.
 ---
 
 # Context Handoff
