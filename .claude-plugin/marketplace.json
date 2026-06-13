@@ -11,7 +11,7 @@
       "displayName": "Context Handoff",
       "description": "Decide when a long session should hand off, then produce a safe, complete resume document so a fresh terminal/session can continue.",
       "source": "./plugins/context-handoff",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "author": { "name": "yangsui" },
       "homepage": "https://github.com/yangsui9999/agent-skills",
       "license": "MIT",

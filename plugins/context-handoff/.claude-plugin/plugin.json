@@ -3,7 +3,7 @@
   "name": "context-handoff",
   "displayName": "Context Handoff",
   "description": "Decide when a long session should hand off, then produce a safe, complete resume document so a fresh terminal/session can continue.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": {
     "name": "yangsui",
     "url": "https://github.com/yangsui9999"
