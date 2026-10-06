@@ -15,6 +15,10 @@ Communication to and from subagents should be sparse. Communicate primarily thro
 
 **Implementer subagents** should be run in the background where possible for maximum concurrency.
 
+<!-- local: model tiers -->
+Pass a model explicitly to every subagent; never let one inherit the session model. Tiers map to concrete models in the harness instructions (`~/.claude/CLAUDE.md` or `~/.codex/AGENTS.md`). Pick each **implementer**'s tier by what its ticket touches, not by how hard it looks: schema or migrations, transactions and row locks, auth and permission checks, or moving state into the URL → **strong**; pure UI, copy, edge guards, docs → **standard**; renames, config, single-file mechanical fixes → **light**. The **exploration** and **merger** subagents run on **standard**. Never use the **final** tier for implementation.
+<!-- /local -->
+
 ## Steps
 
 1. Read the spec and tickets to understand the task graph.

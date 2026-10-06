@@ -55,7 +55,12 @@ Each smell reads *what it is* → *how to fix*; match it against the diff:
 - **Middle Man**: a class or function that mostly just delegates onward. → cut it, call the real target direct.
 - **Refused Bequest**: a subclass or implementer that ignores or overrides most of what it inherits. → drop the inheritance, use composition.
 
-### 4. Spawn both sub-agents in parallel
+### 4. Spawn the sub-agents in parallel
+
+<!-- local: model tiers + correctness axis -->
+**Models.** Pass a model explicitly to every sub-agent; never let one inherit the session model. Tiers (**standard**, **strong**, **final**) map to concrete models in the harness instructions (`~/.claude/CLAUDE.md` or `~/.codex/AGENTS.md`). Standards and Spec run on **standard**: checking against a list rewards fresh context more than a stronger model. Correctness runs on **strong**.
+<!-- /local -->
+
 
 **Standards sub-agent prompt** should include:
 
@@ -71,11 +76,26 @@ Each smell reads *what it is* → *how to fix*; match it against the diff:
 
 If the spec is missing, skip the Spec sub-agent and note this in the final report.
 
+<!-- local: correctness axis -->
+**Correctness sub-agent prompt** (fresh context, **strong** tier) should include:
+
+- The diff command and commit list.
+- The brief, verbatim: "Your job is to overturn the conclusion that this diff works correctly. Hunt for bugs only: ignore code style and spec conformance. You may write and run scripts to prove a finding. Focus on boundary inputs, null/uninitialised values, concurrency and races, error branches, resource lifecycle, and type boundaries. For each finding give the trigger condition, the consequence, and your confidence. Report uncertain findings too; the user filters."
+
+The Spec axis only checks correctness inside the spec's scope, so a bug outside it belongs to nobody without this axis. Two agents on the same tier in series are not two filters; this one exists to disagree.
+<!-- /local -->
+
 ### 5. Aggregate
 
-Present the two reports under `## Standards` and `## Spec` headings, verbatim or lightly cleaned. Do **not** merge or rerank findings, because the two axes are deliberately separate (see _Why two axes_).
+Present the reports under `## Standards`, `## Spec` and `## Correctness` headings, verbatim or lightly cleaned. Do **not** merge or rerank findings, because the axes are deliberately separate (see _Why two axes_).
 
 End with a one-line summary: total findings per axis, and the worst issue _within each axis_ (if any). Don't pick a single winner across axes: that's the reranking the separation exists to prevent.
+
+<!-- local: final adversarial review -->
+### 6. Final adversarial review (hard-to-reverse changes only)
+
+If the diff touches a migration, a schema change, production config, or concurrency / resource lifecycle, spawn one more sub-agent on the **final** tier before merge. Give it the diff command and the three reports, with the brief: "Overturn these conclusions: find what the three reviews missed or got wrong." Not "take another look". Report it under `## Final review`. Skip this step for everything else.
+<!-- /local -->
 
 ## Why two axes
 
