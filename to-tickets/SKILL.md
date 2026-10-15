@@ -54,6 +54,10 @@ Ask the user:
 
 Iterate until the user approves the breakdown.
 
+<!-- local: veto-style approval -->
+否决式确认:请用户只指出要改的工单(合并、拆分、改阻塞边);回复「可以」或没有具体异议即视为批准,进入发布。
+<!-- /local -->
+
 ### 5. Publish the tickets to the configured tracker
 
 Publish the approved tickets. **How** depends on the tracker `/setup-matt-pocock-skills` configured; the tickets are the same either way, only the shape of the blocking edges changes:
